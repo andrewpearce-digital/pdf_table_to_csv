@@ -10,7 +10,7 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Install aws-cli and java (yuck!)
+# Install dependencies
 RUN apk --no-cache add openjdk7-jre file python py-pip poppler-utils tesseract-ocr ghostscript \
     && pip install awscli \
     && apk --purge -v del py-pip
