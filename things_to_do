@@ -1,0 +1,6 @@
+# TODO Handle exits
+# TODO clean up workspaces on error/exit
+# TODO Split out push to s3 step to own script?
+# TODO Return something on fail?
+# TODO Test mime_type before downloading
+# IAM permissions to docker container to use bucket
