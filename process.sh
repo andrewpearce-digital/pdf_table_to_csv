@@ -33,7 +33,7 @@ if pdffonts run/$unique_id/$object | grep yes; then
 fi
 
 # Extract table data to csv
-java -jar java/tabula-1.0.2-jar-with-dependencies.jar run/$unique_id/$object -o run/$unique_id/"$filename".csv -p all -g
+java -jar java/tabula.jar run/$unique_id/$object -o run/$unique_id/"$filename".csv -p all -g
 
 # Push file to S3
 aws s3 cp run/$unique_id/"$filename".csv $BUCKET"$filename".csv
