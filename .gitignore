@@ -1,3 +1,6 @@
 test-docs
 local*
 java
+.vscode
+venv
+run/*
