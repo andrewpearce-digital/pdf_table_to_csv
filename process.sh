@@ -38,5 +38,7 @@ java -jar java/tabula.jar run/$unique_id/$object -o run/$unique_id/"$filename".c
 # Push file to S3
 aws s3 cp run/$unique_id/"$filename".csv $BUCKET"$filename".csv
 
+echo $ $BUCKET"$filename".csv >&1
+
 # clean up
 rm -rf run/$unique_id/
