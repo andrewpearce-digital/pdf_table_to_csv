@@ -18,3 +18,11 @@ Image only pdfs are converted to images, run through tesseract OCR and then conv
 Pdfs with a text layer are run through tabula-java which guesses where tables are, and converts them to a csv file.
 
 The final csv will be uploaded to an s3 bucket.
+
+## How to use pdf_table_to_csv
+Run process.sh with an s3 object url as an argument
+
+```
+./process.sh s3://somebucket/document.pdf
+```
+
