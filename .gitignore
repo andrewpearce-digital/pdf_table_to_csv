@@ -3,4 +3,6 @@ local*
 java
 .vscode
 venv
-run/*
+*.pdf
+*.png
+*.csv
