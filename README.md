@@ -14,16 +14,18 @@ Image only pdfs are converted to images, run through tesseract OCR and then conv
 Pdfs with a text layer are run through tabula-java which guesses where tables are, and converts them to a csv file.
 
 ## How to use pdf_table_to_csv
-Build container
+
+###Build the container
 ```
 docker build . --tag pdf_table_to_csv
 ```
 
-Put the a file you want to process in the `./files` folder.
+###To Run
 
-Run 
-
+Put any files you want to process in a `./files` folder.
 ```
-docker run --rm -v ${PWD}/files:/files -u $(id -u ${USER}):$(id -g ${USER}) pdf_table_to_csv example.pdf
+mkdir -p ./files 
+# Copy PDF files to the files folder
+docker run --rm -v ${PWD}/files:/files -u $(id -u ${USER}):$(id -g ${USER}) valveless/pdf_table_to_csv example.pdf
 ```
 
