@@ -9,20 +9,21 @@ capture tables in a pdf and output a csv.
 [ghostscript](https://www.ghostscript.com/)
 
 ## What does it do
-The process.sh script takes an s3 URL as input, which points to a pdf.
-
-The pdf is checked to see if it is an image only or text pdf.
-
+Takes a file in files folder and triese process.sh script takes an s3 URL as input, which points to a pdf.
 Image only pdfs are converted to images, run through tesseract OCR and then converted back into a pdf with an image and a text layer.
-
 Pdfs with a text layer are run through tabula-java which guesses where tables are, and converts them to a csv file.
 
-The final csv will be uploaded to an s3 bucket.
-
 ## How to use pdf_table_to_csv
-Run process.sh with an s3 object url as an argument
+Build container
+```
+docker build . --tag pdf_table_to_csv
+```
+
+Put the a file you want to process in the `./files` folder.
+
+Run 
 
 ```
-./process.sh s3://somebucket/document.pdf
+docker run --rm -v ${PWD}/files:/files -u $(id -u ${USER}):$(id -g ${USER}) pdf_table_to_csv example.pdf
 ```
 

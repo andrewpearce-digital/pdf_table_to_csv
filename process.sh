@@ -1,44 +1,34 @@
 #! /bin/sh
 
+cd /files
+
+# No parameters
 if [ $# -lt 1 ]
 then echo -e "No PDF or image provided. "
     exit 1
 fi
 
-# Download file from s3
-object=${1##*/}
-aws s3 cp $1 $object
-
-type="$(file --mime-type  -b "$object")"
+# Check it's a PDF
+type="$(file --mime-type  -b "$1")"
 
 if [ $type != 'application/pdf' ]; then
     echo -e "file not a pdf"
-    rm $object
     exit 1
 fi
 
-# Setup variables
-y=${object%.*}
-filename=${y##*/}
-unique_id=$(md5sum "$object" | awk '{ print $1 }')
-
 # Setup workspace
-mkdir -p run
-mkdir -p run/$unique_id
-mv $object run/$unique_id/$object
-
 # OCR Image PDF
-if pdffonts run/$unique_id/$object | grep yes; then
-    ./tesseract.sh run/$unique_id run/$unique_id/$filename
+echo "Check for fonts"
+if pdffonts $1 | grep yes; then
+  echo -e "\n\n-----start ghostscript process"
+  gs -dBATCH -dNOPAUSE -sDEVICE=png16m -dGraphicsAlphaBits=4 -dTextAlphaBits=4 -r600 -sOutputFile="$1.page_%d.png" "$1"
+  ls -d1 *.png > tesseract_job.txt
+  echo -e "\n\n-----start tesseract process"
+  tesseract tesseract_job.txt $1.new --psm 6 pdf
+  
 fi
 
 # Extract table data to csv
-java -jar java/tabula.jar run/$unique_id/$object -o run/$unique_id/"$filename".csv -p all -g
+echo -e "\n\n-----start tabula"
+java -jar /opt/tabula.jar $1.new.pdf --outfile "$1".csv --pages all --guess
 
-# Push file to S3
-aws s3 cp run/$unique_id/"$filename".csv $BUCKET"$filename".csv
-
-echo $ $BUCKET"$filename".csv >&1
-
-# clean up
-rm -rf run/$unique_id/
