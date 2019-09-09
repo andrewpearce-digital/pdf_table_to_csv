@@ -34,6 +34,7 @@ class PDFConverter:
             return True
 
     def ghostscript_process(self):
+
         args = [
             "-dNOPAUSE", "-dBATCH",
             "-sDEVICE=png16m",
@@ -44,7 +45,7 @@ class PDFConverter:
             "-f",  sys.argv[2]
         ]
 
-        # arguments have to be bytes, encode them
+        # # arguments have to be bytes, encode them
         encoding = locale.getpreferredencoding()
         args = [a.encode(encoding) for a in args]
 
@@ -83,10 +84,10 @@ def main():
     if work.check_pdf_text_layer():
         print("start ghostscript process")
         work.ghostscript_process()
-        print("start tesseract process")
-        work.tesseract_process()
-        print("start tabula process")
-        work.tabula_process()
+        # print("start tesseract process")
+        # work.tesseract_process()
+        # print("start tabula process")
+        # work.tabula_process()
 
 
 if __name__ == "__main__":

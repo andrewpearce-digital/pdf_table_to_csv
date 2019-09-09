@@ -1,3 +1,7 @@
 https://gitlab.com/pdftools/python-ghostscript
 https://pypi.org/project/pytesseract/
 https://github.com/chezou/tabula-py
+
+docker run -it -v ${PWD}/files:/files -v ${PWD}/python:/app -u $(id -u ${USER}):$(id -g ${USER}) -m 2048M pdf_table_to_csv_python:latest
+
+docker build -f python/Dockerfile -t pdf_table_to_csv_python:latest .
